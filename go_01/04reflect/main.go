@@ -13,7 +13,7 @@ import (
 
 type J struct {
 	a string // 小写无tag
-	b string `json:"B"` // 小写+tag
+	B string `json:"B"` // 小写+tag
 	C string //大写无tag
 	D string `json:"DD" otherTag:"good"` //大写tag
 }
@@ -28,7 +28,7 @@ func printTag(stu any) {
 func main() {
 	j := J{
 		a: "1",
-		b: "2",
+		B: "2",
 		C: "3",
 		D: "4",
 	}
