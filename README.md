@@ -13,6 +13,8 @@
 
 1.3、go 解析 tag 是怎么实现的?反射的原理
 [https://www.liwenzhou.com/posts/Go/reflect/]
+反射的实现原理:
+[https://draveness.me/golang/docs/part2-foundation/ch04-basic/golang-reflect/]
 
 1.4、go select 底层数据结构和一些特性
 [https://blog.csdn.net/wys74230859/article/details/121879389]

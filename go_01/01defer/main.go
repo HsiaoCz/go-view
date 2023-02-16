@@ -36,4 +36,14 @@ func HelloDefer() {
 func main() {
 	HelloDefer()
 	HiDefer()
+	s := add()
+	fmt.Println(s)
+}
+
+func add() (x int) {
+	defer func(x int) {
+		x++
+		fmt.Println(x)
+	}(x)
+	return 5
 }
