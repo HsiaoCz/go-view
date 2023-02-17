@@ -76,3 +76,17 @@ func reflectSetValue2(x interface{}) {
 		v.Elem().SetInt(200)
 	}
 }
+
+// 反射的实现原理
+// 反射基本上围绕着两个函数
+// reflect.ValueOf()和reflect.TypeOf()
+// 这两个函数能够获取变量的类型和变量的值
+// 而这两个函数的入参都是interface{}类型
+// interface{}在语言内部通过反射包的reflect.emptyInterface结构体表示
+// type emptyInterface struct{
+// typ  *rtype  // 用来表示变量的类型
+// word unsafe.Pointer // 用来指向变量内部封装的数据
+// }
+
+// reflect.TypeOf()会将传入的类型隐式转换成reflect.emptyInterface类型，并且获取其中存储的类型信息
+// 具体是怎么拿到的呢？

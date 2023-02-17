@@ -41,8 +41,19 @@ Golang 的双引号和反引号都可用于表示一个常量字符串，不同�
 1.7、map 中删除一个 key，它的内存会释放吗？
 [https://blog.csdn.net/csdniter/article/details/103611783]
 
+如果删除的是值类型，如果int,float,bool,string以及数组和struct,map的内存不会自动释放
+如果删除的元素是引用类型，如指针，slice,map,chan等，map的内存会自动释放，释放的内存是子元素引用类型的内存占用
+
+将map置为nil后，内存会被回收
+
 1.8、go 的 gc 回收针对堆还是针对栈？变量内存分配在堆还是在栈？
 [https://blog.csdn.net/csdniter/article/details/103617531]
+
+go的垃圾回收针对堆
+引用类型的全局变量内存分配在堆上，值类型的全局变量内存分配在栈上
+局部变量的内存分配可能在栈上也可能在堆上
+
+实际上，go语言编译器会自动决定把一个变量放在栈上还是放在堆上，编译器会做逃逸分析，当发现变量的作用域没有抛出函数范围，就可以在栈上，反之则必须分配在堆上
 
 1.9、map 的数据结构是什么?怎么实现扩容?
 [https://blog.csdn.net/weixin_45743893/article/details/122927041]
