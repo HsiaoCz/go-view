@@ -307,6 +307,7 @@ raft
 ## 6、基础
 
 6.1、数据结构和算法
+[https://abelsu7.top/2019/03/24/go-algo-and-data-structure/]
 
 6.2、操作系统
 
