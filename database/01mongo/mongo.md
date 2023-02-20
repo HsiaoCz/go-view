@@ -331,3 +331,7 @@ db.article.find({title:{$regex:"教程"}})
 ```mongo
 不区分大小写的模糊查询，使用$options操作符；
 ```
+
+操作 mongoDB 的文档可以看
+
+[https://github.com/qiniu/qmgo/blob/master/README_ZH.md]
