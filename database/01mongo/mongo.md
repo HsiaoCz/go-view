@@ -335,3 +335,11 @@ db.article.find({title:{$regex:"教程"}})
 操作 mongoDB 的文档可以看
 
 [https://github.com/qiniu/qmgo/blob/master/README_ZH.md]
+
+关于 Bson:
+
+// bson 主要用来写查询的筛选条件 filter，构造文件记录以及接受查询解码的值，也就是 go 和 mongo 之间的序列化
+// 一般会使用这三种数据结构
+// bson.D{}:对文档的有序描述,key-value 以逗号分隔
+// bson.M{}:map 结构，key-value 以冒号分隔，无序，使用最方便
+// bson.A{}:数组结构，元素要求是有序的文档描述，也就是元素是 bson.D{}类型
