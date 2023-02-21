@@ -284,6 +284,8 @@ raft
 
 5.4、ElsticSearch
 
+这个一般未必用得到，最后总复习的时候看一下
+
 5.5、promithus
 
 5.6、k8s
