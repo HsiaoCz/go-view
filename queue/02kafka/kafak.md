@@ -64,4 +64,27 @@ producer在向 kafka写入消息的时候，可以设置参数来确定是否确
 
 **Topic和数据日志**
 
-topic是消息的类别
+topic是同一类别的消息的记录的集合。在kafka中，一个主题通常有多个订阅者，对于每个主题，kafka维护了一个分区数据日志文件
+每个partition都是一个有序并且不可变的消息记录集合。当新的数据写入时，就被追加到partition的末尾。在每个partition中，
+每条消息都会被分配一个顺序的唯一标识，这个标识被称为offset，即偏移量
+
+partition在服务器上的表现形式就是一个一个文件夹，每个partition的文件夹下面会有多组seament文件，每组segement文件包含.index文件,.log文件.timeindex文件，其中.log文件就是实际存储message的地方，而.index和.timeindex文件为索引文件，用于检索信息
+
+
+**kafka的面试题**
+
+1、kafka的架构
+
+2、生产者往kafka发送数据的流程
+
+3、kafka选择分区的模式
+
+4、生产者往kafka发送数据的模式
+
+5、分区存储文件的原理
+
+6、消费者消费数据的原理
+
+7、为什么kafka快
+
+8、kafka的使用场景
