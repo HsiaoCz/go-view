@@ -48,8 +48,9 @@ func main() {
 	go f1()
 	go f3(c)
 	time.Sleep(time.Microsecond * 100)
-	notify = true
-	exitchan <- true
+	notify = false
+	exitchan = make(chan bool)
+	exitchan <- false
 	cancel()
 	wg.Wait()
 }
@@ -66,32 +67,31 @@ func main() {
 // 首先看一个例子，如何控制子goroutine退出
 
 func f() {
-	defer wg.Done()
 	for {
-		if notify {
-			break
-		}
 		fmt.Println("Hello")
 		time.Sleep(time.Second * 1)
+		if !notify {
+			break
+		}
 	}
+	wg.Done()
 }
 
 func f1() {
-	defer wg.Done()
 LOOP:
 	for {
-		fmt.Println("Hello")
-		time.Sleep(time.Second * 1)
+		fmt.Println("ba ga")
+		time.Sleep(time.Second * 3)
 		select {
 		case <-exitchan:
 			break LOOP
 		default:
 		}
 	}
+	wg.Done()
 }
 
 func f3(c context.Context) {
-	defer wg.Done()
 LOOP:
 	for {
 		fmt.Println("hi")
@@ -102,4 +102,5 @@ LOOP:
 		default:
 		}
 	}
+	wg.Done()
 }
