@@ -31,7 +31,7 @@ func (cc *CatC) Sleep() {
 }
 
 // 只对接口依赖实现
-
+// 这依赖很显然耦合度更低
 type CatM struct{}
 
 func (cm *CatM) Eat(c *Cat) {
