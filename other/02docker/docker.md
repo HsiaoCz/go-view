@@ -153,7 +153,7 @@ docker logs [-f等选项] 容器名/ID
 ```bash
 docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
 
-Create a new image from a container's changes
+Create a new image from a containers changes
 
 Options:
   -a, --author string    Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
