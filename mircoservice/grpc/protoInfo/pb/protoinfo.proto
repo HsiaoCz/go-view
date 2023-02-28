@@ -1,0 +1,23 @@
+syntax="proto3";
+
+package pb;
+
+options go_package="./;pb";
+
+service ProductInfo{
+    // 添加商品
+    rpc addProduct(Product) returns (ProductID);
+    // 获取商品
+    rpc getProduct(ProductID) returns (Product);
+}
+
+message Product{
+    string id=1;
+    string name=2;
+    string descripion=3;
+}
+
+message ProductID{
+    string value=1;
+}
+

@@ -343,3 +343,74 @@ db.article.find({title:{$regex:"教程"}})
 // bson.D{}:对文档的有序描述,key-value 以逗号分隔
 // bson.M{}:map 结构，key-value 以冒号分隔，无序，使用最方便
 // bson.A{}:数组结构，元素要求是有序的文档描述，也就是元素是 bson.D{}类型
+
+
+##关于bson
+
+bson是二进制的json
+bson支持更多的数据格式
+
+bson.go里面有描述
+```go
+type D = primitive.D
+​
+type E = primitive.E
+​
+type M = primitive.M
+​
+type A = primitive.A
+```
+
+bson.D:代表一个bson文档，使用的比较多
+```go
+bson.D{
+  {"foo","bar"},
+  {"hello","world"},
+  {"pi",3.14159},
+}
+```
+bson.D的每一对键值都需要用大括号括起来使用，括号内逗号前为key，逗号后为value
+
+第二种:bson.E:代表了一个Bson文档的元素，通常在D内使用
+
+```go
+type D []E
+​
+type E struct {
+  Key   string
+  Value interface{}
+}
+```
+实际上一个bson.D就是由多个bson.E组成，它代表一个bson文档的元素
+所以bson.D也就是:
+```go
+bson.D{
+  bson.E{Key: "foo", Value: "bar"},
+  bson.E{Key: "hello", Value: "world"},
+  bson.E{Key: "pi", Value: 3.14159},
+}
+```
+
+第三种:bson.M：代表的了一个bson文档，与D不同的是，它是无序的，可以理解为map
+```go
+bson.M{
+  "foo":"bar",
+  "hello":"world",
+  "pi":3.14159,
+}
+```
+
+M格式与D格式区别:
+- D是有序的，M是无序的
+- D的每一对键值对需要使用大括号括起来，M不需要
+- D的键值对用,号隔开，M使用:
+
+第四种:bson.A代表一个bson数组
+```go
+bson.A{
+  "bar",
+  "world",
+  3.14159,
+  bson.D{{"qux", 12345}},
+}
+```
