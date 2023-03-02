@@ -24,3 +24,9 @@ message Hello{
 protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/hello.proto
 ```
 这里需要注意的是，生成命令的时候需要在项目的根目录下
+
+**grpc-gateway**
+
+将grpc定义的服务转成HTTP，使得外部使用HTTP的方式访问，并且能够转到内部grpc的接口上
+
+grpc-geteway
