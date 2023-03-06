@@ -161,24 +161,35 @@ HTTP1/2都是基于TCP的，因为发送HTTP请求时，会先进行TCP三次握
 3.SMTP：简单邮件协议，用来发送电子邮件
 4.POP3:它是和SMTP对应，pop3用来接收邮件
 
-
+基于UDP的协议：
+1.DNS：域名解析服务
+2.SNMP（简单网络管理协议）
+3.TFTP（UDP）：目标是在UDP之上上建立一个类似于FTP的但仅支持文件上传和下载功能的传输协议，所以它不包含FTP协议中的目录操作和用户权限等内容；
 
 **7.TCP 的三次握手和四次挥手(非常重要)**
 
-  8.HTTP，从输入 URL 到页面展示到底发生了什么？(非常重要)
+**8.HTTP，从输入 URL 到页面展示到底发生了什么？(非常重要)**
 
-  9.HTTP 的状态码有哪些？
+[https://juejin.cn/post/6869279683230629896]
 
-  10.HTTP 和 HTTPS 有什么区别？(重要)
+**9.HTTP 的状态码有哪些？**
 
-  11.HTTP1.0 和 HTTP1.1 有什么区别?
+**10.HTTP 和 HTTPS 有什么区别？(重要)**
 
-  12.HTTP 是不保存状态的协议，如何保存用户状态?
+[https://zhuanlan.zhihu.com/p/151764515]
 
-  13.URL 和 URI 的区别是什么？
+**11.HTTP1.0 和 HTTP1.1 有什么区别?**
 
-  14.ARP 什么是 Mac 地址
+[https://zhuanlan.zhihu.com/p/266578819]
 
-  15.ARP 协议解决了什么问题？地位如何？
+**12.HTTP 是不保存状态的协议，如何保存用户状态?**
+[https://blog.csdn.net/qq_46728644/article/details/123077494]
 
-  16.ARP 协议的工作原理
+**14.ARP 什么是 Mac 地址**
+
+[https://zhuanlan.zhihu.com/p/74432070]
+
+15.ARP 协议解决了什么问题？地位如何？
+
+[https://zhuanlan.zhihu.com/p/145782441]
+
