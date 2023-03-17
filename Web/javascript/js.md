@@ -403,6 +403,18 @@ console.log(firstName,lastName,age)
 
 // 这里要注意一点，引入的文件后缀得是.mjs
 // 被引入得文件的后缀也是.mjs
-// as 这这里是一个起别名的用途
+// as 这这里是一个起别名的用途,主要是为了避免冲突
 ```
 
+我们可以将所有的变量放到一个对象上
+然后将这个对象暴露出去
+
+```javascript
+var MYAPP={}
+
+MYAPP.firstName="hello";
+MYAPP.LastName="hello";
+MYAPP.year=18;
+
+export MYAPP;
+```
