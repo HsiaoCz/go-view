@@ -350,4 +350,58 @@ persion.greet=function(){
 person.greet()()
 ```
 
-### 
+### 命名空间
+
+不在任何函数内定义的变量就具有全局作用域，实际上，javaScript默认有一个全局对象window，全局作用域的变量实际上被绑定到window的一个属性
+
+对于浏览器而言默认的全局对象就是window，如果直接在编辑器里执行，默认的全局对象是Object,
+
+可以认为不在花括号内声明的代码就是全局作用变量
+
+**全局作用域与window**
+
+由于函数定义有两种方式，以变量的方式var foo=function()定义的函数实际上也是一个全局变量
+因此，顶层函数有多个全局变量，并绑定到window对象
+
+```javascript
+var a=10
+a // 10
+window.a //10
+```
+
+甚至我们可以覆盖掉浏览器的内置方法:
+
+```javascript
+alert=()=>(console.log("覆盖掉alert方法"))
+alert()
+```
+
+为了避免不同的程序员将相同的变量放在同一个对象上，所以有一个类似于go package的包管理方式
+
+**export**
+
+在js中一个模块就是一个独立的文件，该文件内部的所以变量，外部无法获取，如果你希望外部能够获取模块内部的某个变量
+
+```javascript
+export var firstName="Micheal";
+var lastName ="jackson";
+var year =1982;
+
+// 通过export 将对象暴露到外部
+// 外部通过import导入
+export {firstName,lastName,year}
+
+// 或者直接使用export来暴露文件
+```
+
+当我们在一个包中暴露了一些变量
+可以在另一个包中导入这些变量
+
+```javascript
+import {firstName as fName,lastName,age} from './profile.mjs'
+console.log(firstName,lastName,age)
+
+// 这里要注意一点，引入的文件后缀得是.mjs
+// 被引入得文件的后缀也是.mjs
+// as 这这里是一个起别名的用途
+```
