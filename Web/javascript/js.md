@@ -405,3 +405,4 @@ console.log(firstName,lastName,age)
 // 被引入得文件的后缀也是.mjs
 // as 这这里是一个起别名的用途
 ```
+
