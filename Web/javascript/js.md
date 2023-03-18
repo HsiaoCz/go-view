@@ -350,7 +350,7 @@ persion.greet=function(){
 person.greet()()
 ```
 
-### 命名空间
+### 10、命名空间
 
 不在任何函数内定义的变量就具有全局作用域，实际上，javaScript默认有一个全局对象window，全局作用域的变量实际上被绑定到window的一个属性
 
@@ -417,4 +417,121 @@ MYAPP.LastName="hello";
 MYAPP.year=18;
 
 export MYAPP;
+```
+使用这种暴露好像还会出一些问题
+
+可以这样
+```javascript
+MYAPP.firstName="hello";
+MYAPP.LastName="hello";
+MYAPP.year=18;
+
+export var MyApp={firstName,lastName,year}
+
+```
+
+**默认导出**
+
+使用import命令的时候，用户需要知道所要加载的变量名或函数名，否则无法加载成功
+
+比如
+```javascript
+import (MYAPP) from './export'
+```
+
+如果我们想要直接导入模块，再看该模块下有哪些变量可用，就像golang一样
+我们可以使用export default 命令
+
+```javascript
+export default MYAPP
+```
+
+与export 的区别是，其他模块加载此模块时，可以随意起名字
+相当于自动帮你完成了一个default as pkg的操作
+
+
+```javascript
+import myapp from './profile'
+```
+
+**注意版本**
+
+这里需要注意的是，ES版本不同，有两种导入语法
+- require/exports 是Commonjs/AMD中为了解决模块化语法而引入的ES5语法，nodejs使用该规范
+- import/export是ES6引入的规范，因为兼容问题，需要在node中用babel将ES6语法编译成ES5语法
+
+commonjs的语法，一个模块想要对外暴露变量，可以使用module.exports=variable,一个模块想要引用其他模块暴露的变量，使用var ref=require(module_name)就拿到了引用模块的变量
+
+这里的机制其实就是为每个文件准备一个module对象，把它装进去
+
+```javascript
+var module={
+    id :'hello',
+    exports:{}
+};
+```
+
+### 11、条件判断
+
+主要是条件判断的时候多加一个括号
+
+```javascript
+var a=10;
+if (a<=10){
+
+}eles if(a>=10){
+
+}else{
+
+}
+```
+
+### 12 for 循环
+
+主要注意条件要加括号
+
+```javascript
+var x=0;
+var i;
+for (i =1;i<=1000;i++){
+    x=x+1;
+}
+
+```
+
+for in循环，将一个对象的所有属性取出来
+
+```javascript
+var a={
+    name:"hello",
+    age:18,
+};
+for(var key in a){
+    console.log(key,a[key])
+}
+
+var s=[1,2,3,4]
+for (let i in s){
+    console.log(i)
+}
+```
+
+for in有一个问题，当动态的为一个map或数组绑定了一个值之后
+for in也会遍历出来
+
+于是出现了`for of`;
+
+```javascript
+for (let item of a){
+    console.log(item)
+}
+```
+
+for of遍历的是集合中的元素，并不单是key
+那么怎么使用这种方式遍历到key
+
+```javascript
+for (let key of Object.key(a)){
+    console.log(key);
+}
 ```
