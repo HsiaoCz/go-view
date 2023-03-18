@@ -535,3 +535,94 @@ for (let key of Object.key(a)){
     console.log(key);
 }
 ```
+
+**for Each**
+
+任何一个array都有一个forEach方法
+
+```javascript
+a.forEach(element=>{
+    console.log(element);
+})
+```
+
+### 13、Pormise对象
+
+在javascript的世界里，所有的代码都是单线程执行的
+由于这个缺陷，导致js的所有网络操作，浏览器事件，都必须是异步执行，javascript通过回调函数实现异步的，这是js的一大特色
+
+单线程异步模型
+
+```javascript
+function callback(){
+    console.log("Deav")
+}
+
+console.log("before setTimeout()");
+setTimeout(callback,5000);
+console.log("after setTimeout()");
+```
+这里会立即返回，5秒后执行callback，并不是在这个阻塞5s
+js通过回调函数实现异步逻辑
+
+**Promise**
+
+如何编写类似于setTimeout的函数，是获取数据setData，要求返回，不能阻塞
+通过一种特殊的写法:success(data) error(err)
+```javascript
+var success=(data)=>(console.log(data))
+
+var reject=(err)=>(console.log(err))
+
+function getData(success,reject){
+    //业务逻辑非常耗时，比如2s服务端才返回数据
+    setTimeout(()=>{
+        // 成功调用success，回调
+        success({code:0,data:{name:"laowang",age:18}})
+        // 失败者调用reject回调
+        reject({code:500,data:{message:"hello",age:18}})
+    })
+}
+
+getData((data)=>{console.log(data)},(error)=>{console.log(error)})
+```
+
+getData函数只关注自身的逻辑，并不关心具体的resolve和reject将如何处理结果
+js把这种编程方式抽象成了一种对象:Promise
+
+采用pormise,相比于我们自己传递回调函数，添加了一个语法糖，做成了一个链式调用
+```javascript
+var p1 =new Promise(getData)
+
+p1.then((resp)=>{
+  console.log(resp)
+}).catch((err)=>{
+  console.log(err)
+}).finally(()={
+    console.log("finally")
+})
+```
+
+**Async函数+Promise组合**
+
+从回调函数，到promise对象，再到Generator函数(协程方案的一种过度形态),javaScript异步编程解决方案现在到了Async/await
+
+async函数由内置的执行器进行执行，这和go func()差不多
+
+凡是async标明的函数都会起一个runtime来执行
+如果函数内部阻塞了，也不会阻塞主线程
+
+```javascript
+async function getData(){
+    var p1=new Promise(testResultCallbackFunc)
+    try {
+        var rest=await p1
+        console.log(result)
+    }catch(err){
+        console.log(err)
+    }
+}
+getData()
+```
+
+这里getData就是一个异步函数，他执行的时候，是交给js的携程处理器的，而await关键字就是告诉执行器，当p1执行完之后，主动通知我
