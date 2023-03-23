@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"html/template"
@@ -12,8 +13,8 @@ import (
 )
 
 type User struct {
-	Name string
-	Age  string
+	Name string `json:"username"`
+	Age  string `json:"age"`
 }
 
 func SayHello(w http.ResponseWriter, r *http.Request) {
@@ -26,9 +27,28 @@ func SayHello(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, name)
 }
 
+func UserLogin(w http.ResponseWriter, r *http.Request) {
+	_, err := template.ParseFiles("./hello.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+	r.ParseForm()
+	username := r.PostForm["username"]
+	age := r.PostForm["age"]
+	log.Println(username)
+	log.Println(age)
+
+	user := User{
+		Name: username[0],
+		Age:  age[0],
+	}
+	json.NewEncoder(w).Encode(user)
+}
+
 func Start(listenAddr string) error {
 	r := mux.NewRouter()
 	r.HandleFunc("/user/{name}", SayHello).Methods("GET")
+	r.HandleFunc("/user/login", UserLogin).Methods("POST")
 	srv := &http.Server{
 		Handler:      r,
 		Addr:         listenAddr,
