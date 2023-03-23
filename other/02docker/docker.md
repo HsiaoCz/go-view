@@ -251,3 +251,106 @@ docker images 列出所有镜像
 docker rmi 删除镜像
 docker cp 宿主机和容器间拷贝文件
 ```
+
+### dockerfile
+
+```dockerfile
+FROM alaine  # form指定镜像指定的镜像
+WORKDIR /app  # 指定shell语句运行在哪个镜像下
+COPY  src/  /app # 将当前宿主机的文件拷贝到容器内的目录下
+
+RUN echo 321 >> 1.txt  # 运行的shell语句，在容器构建的时候就会执行
+
+CMD  tail -f 1.txt   # 指定镜像启动起来的时候执行的脚本，和RUN的区别，RUN在构建的时候就会运行，CMD在容器真正运行起来之后才会执行
+
+ADD  # 和COPY的命令很类似，都可以将外部的文件复制到容器里，但是ADD不仅可以是文件还可以是压缩，并且自动解压缩，而且ADD的文件系统不仅可以是当前的文件系统，还可以是URL，一般推荐使用copy而不要使用ADD
+
+ENTRYPOINT # 这个命令和CMD都是可以指定容器运行起来之后的核心脚本，如果二者混用，而且ENTRYPOINT是非json则以ENTRYPOINT为准，如果ENTRYPOINT和CMD都是JSON，那么二者拼接使用，ENTRYPOINT指定的命令可以在run的时候追加参数
+
+EXPOSE # 暴露的端口
+VOLUME # 指定文件映射
+
+ENV # 指定容器的环境变量，在run的时候通过-e指定环境变量
+
+ARG # 也是指定环境变量，但是只在系统构建的时候生效，而ENV在系统构建和运行时都是生效的，这个ARG是一个默认的参数
+如果run的时候指定--build-arg，那么会将它改变
+
+LABEL # 通过key value形式指定元数据，没有实质性的作用，只起了一个标识的作用，通过docker inspect这个指令来看看一个镜像是否满足一些标识
+
+ONBUILD ENV # obuild指令，当别的镜像是基于这个镜像的时候，onbuild 后面的指令才会运行
+
+STOPSIGNAL # 当前容器使用什么样的信号才能够停止
+
+HEALTHCHECK # 检查容器的健康状态
+
+SHELL # 检查容器里面运行的镜像是哪种镜像
+```
+
+### docker-compose
+
+是docker官方的单机多容器管理系统
+通过解析用户编写的yaml文件，调用docker API实现动态的创建和管理多个容器
+
+安装docker-compose
+linux:需要到compose的github页面下载一个docker-compose,注意要和docker 版本一致，接下来修改docker-compose的执行权限，然后验证docker-compose是否安装成功
+
+编写docker-compose的模板文件，格式为yaml文件
+编写v3版本
+
+docker-compose文件分为三个部分
+
+1. service(服务):服务定义了容器启动的各项配置，像执行docker run命令时传递的启动参数
+
+首先定义服务的名称，然后定义服务的各项配置
+```yaml
+version: "3.8"
+services:
+ nginx: 
+ 
+#  常用的16中配置
+   build: # 指定dockerfile文件路径，根据dockerfile命令来构建文件
+   context: # 构建执行的上下文目录
+   dockerfile: # 指定dockerfile的名称
+
+# 这两个指定容器可以使用哪些内核能力
+   cap_add:
+    - NET_ADMIN
+   
+   cap_drop:
+    - SYS_ADMIN
+  
+  # command用于覆盖容器默认的启动命令
+  command: sleep 3000
+
+  container_name: nginx # 指定容器启动时容器的名称
+
+  depends_on: # 指定服务间的依赖关系
+
+  devices: # 挂载主机的设备到容器
+
+  dns: # 自定义容器中的dns配置
+  dns_search: #配置dns的搜索域
+
+  entrypoint: # 覆盖容器的entrypoint命令
+
+  env_file : # 指定容器的环境变量文件
+
+  environment : #指定容器启动时的环境变量
+
+  image: # 指定容器镜像的地址
+
+  Network: # 允许创建自定义的网络
+```
+
+2. networks(网络):网络定义了容器的网络配置，像执行docker-network命令创建网络配置
+
+3. volumes(数据卷):数据卷定义了容器的卷配置，像执行docker volume create命令创建数据卷
+
+
+**docker-compose操作命令**
+
+```docker
+docker-compose -h 查看docker-compose命令的用法
+```
+
+docker compose :是一个用来定义负载应用的单机编排工具，通常用于服务依赖关系复杂的开发和测试环境
