@@ -265,7 +265,7 @@ CMD  tail -f 1.txt   # 指定镜像启动起来的时候执行的脚本，和RUN
 
 ADD  # 和COPY的命令很类似，都可以将外部的文件复制到容器里，但是ADD不仅可以是文件还可以是压缩，并且自动解压缩，而且ADD的文件系统不仅可以是当前的文件系统，还可以是URL，一般推荐使用copy而不要使用ADD
 
-ENTRYPOINT # 这个命令和CMD都是可以指定容器运行起来之后的核心脚本，如果二者混用，而且ENTRYPOINT是非json则以ENTRYPOINT为准，如果ENTRYPOINT和CMD都是JSON，那么二者拼接使用，ENTRYPOINT指定的命令可以在run的时候追加参数
+ENTRYPOINT # 这个命令和CMD都是可以指定容器运行起来之后的核心脚本，如果二者混用，而且ENTRYPOINT是非json则以ENTRYPOINT为准，如果ENTRYPOINT和CMD都是JSON，那么二者拼接使用，ENTRYPOINT指定的命令可以在run的时候追加参数,二者都是json的时候，cmd为准
 
 EXPOSE # 暴露的端口
 VOLUME # 指定文件映射
