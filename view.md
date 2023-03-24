@@ -2,7 +2,7 @@
 
 2. 对go的底层数据结构和实现有一定的了解，包括进程调度、垃圾回收，逃逸分析，内存分配等机制
 
-3. 熟悉web框架gin，以及常用的组件，如validator，swagger，zap，viper，gorm/xorm等
+3. 熟悉web框架gin，以及常用的组件，如validator，swagger，zap，viper，gorm/xorm等 done
 
 4. 熟练使用关系型数据库MySQL，非关系型数据库MongoDB，缓存Redis，了解消息队列kafka/RabbitMQ
 
