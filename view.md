@@ -21,5 +21,5 @@
 11. 熟悉linux常用命令，熟练使用vim，vscode，git，markdown，postman等工具  done
 
 
-分布式事务，raft，vue3，计算机网络，mysql，redis，操作系统
-GMP，GC，逃逸分析，内存分配，nginx
+分布式事务(done)，raft(done)，vue3，计算机网络，mysql，redis，操作系统
+GMP，GC(done)，逃逸分析，内存分配，nginx
