@@ -1,17 +1,18 @@
 ## docker
 
-**1、docker是什么？**
+**1、docker 是什么？**
 
-docker是一种容器技术，是一种沙盒技术。它提供了一种非常便利的打包机制，这种机制直接打包了应用运行所需要的整个操作系统，从而能够保证本地环境（开发环境）和生产环境（运行环境）的高度一致
+docker 是一种容器技术，是一种沙盒技术。它提供了一种非常便利的打包机制，这种机制直接打包了应用运行所需要的整个操作系统，从而能够保证本地环境（开发环境）和生产环境（运行环境）的高度一致
 
 镜像与容器：
 镜像是一个静态的概念，容器是一个动态的概念，容器是镜像的实例，通俗的讲，镜像就是放在硬盘上的，容器时基于镜像跑起来的东西。
 
-配置docker可以修改/etc/docker/daemon.json文件
+配置 docker 可以修改/etc/docker/daemon.json 文件
 
 比如可以设置镜像存储位置:
 
-docker镜像默认的存储位置在根目录，可以改一下
+docker 镜像默认的存储位置在根目录，可以改一下
+
 ```json
 {
     "data_root":"myownpath", ### 存储位置
@@ -38,9 +39,9 @@ docker镜像默认的存储位置在根目录，可以改一下
 }
 ```
 
-*设置docker的代理*
+_设置 docker 的代理_
 
-docker是一个C/S架构，我们执行的docker命令实际是一种客户端，它会发起REST API到daemon(Server端），由daemon去拉取需要的镜像。此节设置的就是daemon的代理。几乎所有的daemon相关设置都可以在daemon.json中完成，但代理是个例外，这个设置需要创建：
+docker 是一个 C/S 架构，我们执行的 docker 命令实际是一种客户端，它会发起 REST API 到 daemon(Server 端），由 daemon 去拉取需要的镜像。此节设置的就是 daemon 的代理。几乎所有的 daemon 相关设置都可以在 daemon.json 中完成，但代理是个例外，这个设置需要创建：
 /etc/systemd/system/docker.service.d/http-proxy.conf 文件。
 
 ```
@@ -50,33 +51,32 @@ Environment="HTTPS_PROXY=https://proxy.example.com:443"
 Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.example.com,.corp"  ### 设置一些ip跳过代理
 ```
 
-*容器代理*
+_容器代理_
 
 这个需要起一个配置文件
 创建~/.docker/config.json
 
 ```json
 {
- "proxies":
- {
-   "default":
-   {
-     "httpProxy": "http://192.168.1.12:3128",
-     "httpsProxy": "http://192.168.1.12:3128",
-     "noProxy": "*.test.example.com,.example2.com,127.0.0.0/8"
-   }
- }
+  "proxies": {
+    "default": {
+      "httpProxy": "http://192.168.1.12:3128",
+      "httpsProxy": "http://192.168.1.12:3128",
+      "noProxy": "*.test.example.com,.example2.com,127.0.0.0/8"
+    }
+  }
 }
 ```
 
-**2、docker的使用**
+**2、docker 的使用**
 
-*启动容器*
+_启动容器_
 
 ```bash
 docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 ```
-docker run有很多参数可以设置
+
+docker run 有很多参数可以设置
 
 ```
 -d: 后台运行容器，并返回容器ID；
@@ -90,7 +90,7 @@ docker run有很多参数可以设置
 --net=bridge: 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型；
 --expose=[]: 开放一个端口或一组端口；
 --volume , -v: 绑定一个卷
---rm ,退出容器后删除名字 
+--rm ,退出容器后删除名字
 --restart ,重启选项，有no/always/on-failure/unless-stopped
 --entrypoint ,重写容器进程的入口
 ```
@@ -100,12 +100,14 @@ docker run有很多参数可以设置
 ```bash
 sudo docker run -it --name test ubuntu:16.04
 ```
+
 这种是以前台交互式的允许，会启动并且进入容器，我们像使用普通终端一样去安装工具
 如果以后台形式运行：
 
 ```bash
 sudo docker run -d --name test ubuntu:16.04
 ```
+
 进入容器：
 
 ```bash
@@ -114,7 +116,7 @@ docker exec -it 容器ID/名称 bash
 
 使用`docker update`可以修改容器运行时指定的参数
 
-**3、docker的进阶使用**
+**3、docker 的进阶使用**
 
 1、持久化(挂载主机硬盘)
 启动时通过-v 主机目录：容器目录选项即可讲主机的目录挂载到容器中
@@ -128,13 +130,13 @@ sudo docker run -d --name test -v /home/xxx:/root/xxx ubuntu:16.04
 通过-p 主机端口：容器端口 或直接使用主机网络--net=host
 
 ```bash
-docker run -d -p 5000:5000 ubuntu:16.04 
-docker run -d --net=host ubuntu:16.04 
+docker run -d -p 5000:5000 ubuntu:16.04
+docker run -d --net=host ubuntu:16.04
 ```
 
 3、自定义启动命令
 
-截止到目前，我们都没有指定过容器启动后运行什么命令，其实run的最后一个参数可以用于在启动容器后运行的命令
+截止到目前，我们都没有指定过容器启动后运行什么命令，其实 run 的最后一个参数可以用于在启动容器后运行的命令
 
 ```bash
 docker run -d --name test ubuntu:16.04  /bin/bash
@@ -149,7 +151,8 @@ docker logs [-f等选项] 容器名/ID
 
 5、对容器修改的提交
 
-很多时候我们基于一个镜像启动了容器，在容器中我们安装了我们需要的软件，想在容器删除后也能够使用，而不是再装一次。这时就需要我们能够提交这个修改。和git类似，也是通过commit指令去提交。
+很多时候我们基于一个镜像启动了容器，在容器中我们安装了我们需要的软件，想在容器删除后也能够使用，而不是再装一次。这时就需要我们能够提交这个修改。和 git 类似，也是通过 commit 指令去提交。
+
 ```bash
 docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
 
@@ -160,10 +163,10 @@ Options:
   -c, --change list      Apply Dockerfile instruction to the created image
   -m, --message string   Commit message
   -p, --pause            Pause container during commit (default true)
-  
+
 ```
 
-例如我们修改了ubuntu,我们装了一些软件
+例如我们修改了 ubuntu,我们装了一些软件
 
 ```bash
 docker commit test ubuntu:my16.04
@@ -177,13 +180,13 @@ docker run -d --name test ubuntu:my16.04  /bin/bash
 
 **4、制作镜像**
 
-1、docker file编写
+1、docker file 编写
 
-通过在容器内修改再提交的方式虽然能够生成镜像，但手动操作太多，而且不便于自动化。更常用的制作镜像的方式是Dockerfile。Dockerfile的基本使用比较简单，只需要掌握几个关键字：
+通过在容器内修改再提交的方式虽然能够生成镜像，但手动操作太多，而且不便于自动化。更常用的制作镜像的方式是 Dockerfile。Dockerfile 的基本使用比较简单，只需要掌握几个关键字：
 
 ```Dockerfile
 FROM ubuntu:16.04 ### FROM: 基础镜像
-ENV LANG C.UTF-8 
+ENV LANG C.UTF-8
 ENV TZ=Asia/Shanghai ### 设置容器的时区, ENV用于设置环境变量
 
 RUN mkdir /opt/alg ### RUN: 执行一条命令，多个命令可以通过&&
@@ -197,12 +200,12 @@ ENTRYPOINT ["/opt/alg/config/start_service.sh" ]  ### 设置容器启动的入�
 
 ```
 
-可以用entrypoint去指定入口，也可以使用CMD指定，这二者之间的差异
+可以用 entrypoint 去指定入口，也可以使用 CMD 指定，这二者之间的差异
 [https://blog.csdn.net/wuce_bai/article/details/88997725]
 
 2、生成镜像
 
-在dockerfile的目录执行
+在 dockerfile 的目录执行
 
 ```bash
 docker build . -t 镜像名:标签
@@ -214,7 +217,7 @@ docker build . -t myapp:v1
 
 3、镜像保存、载入
 
-镜像既可以上传至官方的DockerHub供人pull,也可以自行搭建私有化的镜像仓库（如harbor)。但对于普通人或日常使用，更多的可能是想将镜像保存成一个可传输的文件，然后放到其他机器，再载入。这个docker也是有对应命令支持的
+镜像既可以上传至官方的 DockerHub 供人 pull,也可以自行搭建私有化的镜像仓库（如 harbor)。但对于普通人或日常使用，更多的可能是想将镜像保存成一个可传输的文件，然后放到其他机器，再载入。这个 docker 也是有对应命令支持的
 
 ```bash
 docker save [OPTIONS] IMAGE [IMAGE...]
@@ -234,8 +237,8 @@ gunzip -c <myimage>_<tag>.tar.gz | docker load
 
 4、显卡使用
 
-对于深度学习部署，很多可能需要显卡，使用docker时，需要保证显卡驱动安装，同时按上述步骤安装了nvidia-docker2。
-启动容器时，增加--gpus选项即可：
+对于深度学习部署，很多可能需要显卡，使用 docker 时，需要保证显卡驱动安装，同时按上述步骤安装了 nvidia-docker2。
+启动容器时，增加--gpus 选项即可：
 
 ```bash
 sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi ### all: 所有显卡都可用
@@ -288,25 +291,26 @@ SHELL # 检查容器里面运行的镜像是哪种镜像
 
 ### docker-compose
 
-是docker官方的单机多容器管理系统
-通过解析用户编写的yaml文件，调用docker API实现动态的创建和管理多个容器
+是 docker 官方的单机多容器管理系统
+通过解析用户编写的 yaml 文件，调用 docker API 实现动态的创建和管理多个容器
 
-安装docker-compose
-linux:需要到compose的github页面下载一个docker-compose,注意要和docker 版本一致，接下来修改docker-compose的执行权限，然后验证docker-compose是否安装成功
+安装 docker-compose
+linux:需要到 compose 的 github 页面下载一个 docker-compose,注意要和 docker 版本一致，接下来修改 docker-compose 的执行权限，然后验证 docker-compose 是否安装成功
 
-编写docker-compose的模板文件，格式为yaml文件
-编写v3版本
+编写 docker-compose 的模板文件，格式为 yaml 文件
+编写 v3 版本
 
-docker-compose文件分为三个部分
+docker-compose 文件分为三个部分
 
-1. service(服务):服务定义了容器启动的各项配置，像执行docker run命令时传递的启动参数
+1. service(服务):服务定义了容器启动的各项配置，像执行 docker run 命令时传递的启动参数
 
 首先定义服务的名称，然后定义服务的各项配置
+
 ```yaml
 version: "3.8"
 services:
- nginx: 
- 
+ nginx:
+
 #  常用的16中配置
    build: # 指定dockerfile文件路径，根据dockerfile命令来构建文件
    context: # 构建执行的上下文目录
@@ -315,10 +319,10 @@ services:
 # 这两个指定容器可以使用哪些内核能力
    cap_add:
     - NET_ADMIN
-   
+
    cap_drop:
     - SYS_ADMIN
-  
+
   # command用于覆盖容器默认的启动命令
   command: sleep 3000
 
@@ -342,12 +346,11 @@ services:
   Network: # 允许创建自定义的网络
 ```
 
-2. networks(网络):网络定义了容器的网络配置，像执行docker-network命令创建网络配置
+2. networks(网络):网络定义了容器的网络配置，像执行 docker-network 命令创建网络配置
 
-3. volumes(数据卷):数据卷定义了容器的卷配置，像执行docker volume create命令创建数据卷
+3. volumes(数据卷):数据卷定义了容器的卷配置，像执行 docker volume create 命令创建数据卷
 
-
-**docker-compose操作命令**
+**docker-compose 操作命令**
 
 ```docker
 docker-compose -h 查看docker-compose命令的用法
